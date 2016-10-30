@@ -1,0 +1,7 @@
+-std=c++11
+-stdlib=libc++
+-Ibuild
+-I.
+-Ibuild/vendor/zeromq/src/zeromq/include
+-Ibuild/vendor/zeromqcpp/zeromqcpp-prefix/src/zeromqcpp
+-g
