@@ -55,6 +55,6 @@ T* recv_pointer(zmq::socket_t* socket) {
 
 // `poll` is a wrapper around `zmq::poll` that takes a vector instead of a
 // pointer and a size.
-int poll(const vector<zmq_pollitem_t>& items, long timeout);
+int poll(const std::vector<zmq_pollitem_t>& items, long timeout);
 
 #endif  // EXAMPLES_ZMQ_UTIL_H_
