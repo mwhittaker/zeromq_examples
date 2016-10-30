@@ -30,3 +30,7 @@ ADD_EXECUTABLE(push_pull_worker push_pull_worker.cc ${KV_SRC_DEPENDENCIES})
 TARGET_LINK_LIBRARIES(push_pull_worker ${KV_LIBRARY_DEPENDENCIES})
 ADD_EXECUTABLE(push_pull_sink push_pull_sink.cc ${KV_SRC_DEPENDENCIES})
 TARGET_LINK_LIBRARIES(push_pull_sink ${KV_LIBRARY_DEPENDENCIES})
+
+# poll
+ADD_EXECUTABLE(poll_client poll_client.cc ${KV_SRC_DEPENDENCIES})
+TARGET_LINK_LIBRARIES(poll_client ${KV_LIBRARY_DEPENDENCIES})

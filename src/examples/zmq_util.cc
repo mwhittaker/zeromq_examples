@@ -16,6 +16,6 @@ std::string recv_string(zmq::socket_t* socket) {
   return message_to_string(message);
 }
 
-int poll(const std::vector<zmq_pollitem_t>& items, long timeout) {
-  return zmq::poll(items.data(), items.size(), timeout);
+int poll(long timeout, std::vector<zmq::pollitem_t>* items) {
+  return zmq::poll(items->data(), items->size(), timeout);
 }
