@@ -3,6 +3,7 @@
 
 #include <zmq.hpp>
 
+#include "examples/timer_file_descriptor.h"
 #include "examples/zmq_util.h"
 
 int main() {
@@ -19,9 +20,18 @@ int main() {
   puller.connect(puller_address);
   std::cout << "Connected to '" << puller_address << "'." << std::endl;
 
+  std::chrono::nanoseconds zero_seconds(0);
+  std::chrono::nanoseconds one_second(std::chrono::seconds(1));
+  TimerFileDescriptor after_a_second(one_second, zero_seconds);
+  TimerFileDescriptor every_second(one_second, one_second);
+
   std::vector<zmq::pollitem_t> poll_items = {
-      {subscriber, 0, ZMQ_POLLIN, 0}, {puller, 0, ZMQ_POLLIN, 0},
+      {subscriber, 0, ZMQ_POLLIN, 0},
+      {puller, 0, ZMQ_POLLIN, 0},
+      {nullptr, after_a_second.timerfd(), ZMQ_POLLIN, 0},
+      {nullptr, every_second.timerfd(), ZMQ_POLLIN, 0},
   };
+
   while (true) {
     poll(-1, &poll_items);
 
@@ -33,6 +43,16 @@ int main() {
     if (poll_items[1].revents & ZMQ_POLLIN) {
       std::string msg = recv_string(&puller);
       std::cout << "Puller received '" << msg << "'." << std::endl;
+    }
+
+    if (poll_items[2].revents & ZMQ_POLLIN) {
+      std::cout << "After a second fired " << after_a_second.Read()
+                << " time(s). " << std::endl;
+    }
+
+    if (poll_items[3].revents & ZMQ_POLLIN) {
+      std::cout << "Every second fired " << every_second.Read() << " time(s)."
+                << std::endl;
     }
   }
 }
