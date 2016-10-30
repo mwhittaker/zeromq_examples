@@ -3,6 +3,7 @@
 
 #include <cstring>
 #include <string>
+#include <vector>
 
 #include <zmq.hpp>
 
@@ -51,5 +52,9 @@ T* recv_pointer(zmq::socket_t* socket) {
   // nature of the zeromq API.
   return *reinterpret_cast<T**>(message.data());  // NOLINT
 }
+
+// `poll` is a wrapper around `zmq::poll` that takes a vector instead of a
+// pointer and a size.
+int poll(const vector<zmq_pollitem_t>& items, long timeout);
 
 #endif  // EXAMPLES_ZMQ_UTIL_H_
