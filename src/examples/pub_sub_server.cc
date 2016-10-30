@@ -4,11 +4,6 @@
 
 #include "examples/zmq_util.h"
 
-template <typename T>
-void print(T) {
-  std::cout << __PRETTY_FUNCTION__ << std::endl;
-}
-
 int main() {
   zmq::context_t context(1);
   zmq::socket_t socket(context, ZMQ_PUB);
