@@ -8,7 +8,7 @@ int main() {
   zmq::context_t context(1);
   zmq::socket_t socket(context, ZMQ_SUB);
   socket.setsockopt(ZMQ_SUBSCRIBE, "", 0);
-  const std::string address = "tcp://localhost:5555";
+  const std::string address = "tcp://localhost:5556";
   socket.connect(address);
   std::cout << "Connected to '" << address << "'." << std::endl;
 

@@ -8,12 +8,12 @@ int main() {
   zmq::context_t context(1);
 
   zmq::socket_t puller(context, ZMQ_PULL);
-  const std::string puller_address = "tcp://localhost:5555";
+  const std::string puller_address = "tcp://localhost:5557";
   puller.connect(puller_address);
   std::cout << "Puller connected to '" << puller_address << "'." << std::endl;
 
   zmq::socket_t pusher(context, ZMQ_PUSH);
-  const std::string pusher_address = "tcp://localhost:5556";
+  const std::string pusher_address = "tcp://localhost:5558";
   pusher.connect(pusher_address);
   std::cout << "Puller connected to '" << pusher_address << "'." << std::endl;
 

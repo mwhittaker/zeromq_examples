@@ -7,7 +7,7 @@
 int main() {
   zmq::context_t context(1);
   zmq::socket_t socket(context, ZMQ_PUSH);
-  const std::string address = "tcp://*:5555";
+  const std::string address = "tcp://*:5557";
   socket.bind(address);
   std::cout << "Source listening on '" << address << "'." << std::endl;
 
