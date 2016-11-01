@@ -38,3 +38,11 @@ ADD_EXECUTABLE(poll_client
     ${SRC_DEPENDENCIES}
 )
 TARGET_LINK_LIBRARIES(poll_client ${LIBRARY_DEPENDENCIES})
+
+# Extended REQ-REP
+ADD_EXECUTABLE(ext_req_rep_client ext_req_rep_client.cc ${SRC_DEPENDENCIES})
+TARGET_LINK_LIBRARIES(ext_req_rep_client ${LIBRARY_DEPENDENCIES})
+ADD_EXECUTABLE(ext_req_rep_server ext_req_rep_server.cc ${SRC_DEPENDENCIES})
+TARGET_LINK_LIBRARIES(ext_req_rep_server ${LIBRARY_DEPENDENCIES})
+ADD_EXECUTABLE(ext_req_rep_proxy ext_req_rep_proxy.cc ${SRC_DEPENDENCIES})
+TARGET_LINK_LIBRARIES(ext_req_rep_proxy ${LIBRARY_DEPENDENCIES})
