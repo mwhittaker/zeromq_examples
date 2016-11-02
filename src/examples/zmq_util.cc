@@ -27,6 +27,37 @@ std::string recv_string(zmq::socket_t* socket) {
   return message_to_string(message);
 }
 
+void send_msgs(std::vector<zmq::message_t>&& msgs, zmq::socket_t* socket) {
+  for (std::size_t i = 0; i < msgs.size(); ++i) {
+    socket->send(msgs[i], i == msgs.size() - 1 ? 0 : ZMQ_SNDMORE);
+  }
+}
+
+std::vector<zmq::message_t> recv_msgs(zmq::socket_t* socket) {
+  std::vector<zmq::message_t> msgs;
+  int more = true;
+  std::size_t more_size = sizeof(more);
+  while (more) {
+    msgs.emplace_back();
+    socket->recv(&msgs.back());
+    socket->getsockopt(ZMQ_RCVMORE, static_cast<void*>(&more), &more_size);
+  }
+  return msgs;
+}
+
+EnvelopedMessage recv_envoloped_msg(zmq::socket_t* socket) {
+  std::vector<zmq::message_t> msgs = recv_msgs(socket);
+  assert(msgs.size() >= 2);
+  zmq::message_t msg = std::move(msgs.back());
+  msgs.pop_back();
+  return {std::move(msgs), std::move(msg)};
+}
+
+void send_envoloped_msg(EnvelopedMessage&& e, zmq::socket_t* socket) {
+  e.address.emplace_back(std::move(e.msg));
+  send_msgs(std::move(e.address), socket);
+}
+
 int poll(long timeout, std::vector<zmq::pollitem_t>* items) {
   return zmq::poll(items->data(), items->size(), timeout);
 }

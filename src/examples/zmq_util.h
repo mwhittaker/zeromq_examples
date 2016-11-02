@@ -4,9 +4,15 @@
 #include <cstring>
 #include <ostream>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <zmq.hpp>
+
+struct EnvelopedMessage {
+  std::vector<zmq::message_t> address;
+  zmq::message_t msg;
+};
 
 // Pretty prints a message.
 std::ostream& operator<<(std::ostream& out, const zmq::message_t& msg);
@@ -19,6 +25,18 @@ void send_string(const std::string& s, zmq::socket_t* socket);
 
 // `recv` a string over the socket.
 std::string recv_string(zmq::socket_t* socket);
+
+// `send` a multipart message.
+void send_msgs(std::vector<zmq::message_t>&& msgs, zmq::socket_t* socket);
+
+// `recv` an enveloped message over the socket.
+EnvelopedMessage recv_envoloped_msg(zmq::socket_t* socket);
+
+// `send` an enveloped message over the socket.
+void send_envoloped_msg(EnvelopedMessage&& s, zmq::socket_t* socket);
+
+// `recv` a multipart message.
+std::vector<zmq::message_t> recv_msgs(zmq::socket_t* socket);
 
 // Serialize a proto and `send` it over the socket.
 template <typename RequestProto>

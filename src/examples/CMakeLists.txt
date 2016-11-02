@@ -53,3 +53,7 @@ TARGET_LINK_LIBRARIES(ext_req_rep_broker ${LIBRARY_DEPENDENCIES})
 # Multithreaded REQ-REP server
 ADD_EXECUTABLE(multithreaded_req_rep_server multithreaded_req_rep_server.cc ${SRC_DEPENDENCIES})
 TARGET_LINK_LIBRARIES(multithreaded_req_rep_server ${LIBRARY_DEPENDENCIES})
+
+# Outstanding Server
+ADD_EXECUTABLE(outstanding_server outstanding_server.cc ${SRC_DEPENDENCIES})
+TARGET_LINK_LIBRARIES(outstanding_server ${LIBRARY_DEPENDENCIES})
