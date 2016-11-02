@@ -1,5 +1,16 @@
 #include "examples/zmq_util.h"
 
+#include <iomanip>
+#include <ios>
+
+#include "examples/hexdump.h"
+
+std::ostream& operator<<(std::ostream& out, const zmq::message_t& msg) {
+  out << HexDump(reinterpret_cast<const unsigned char*>(msg.data()),
+                 msg.size());
+  return out;
+}
+
 std::string message_to_string(const zmq::message_t& message) {
   return std::string(static_cast<const char*>(message.data()), message.size());
 }

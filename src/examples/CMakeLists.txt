@@ -8,6 +8,7 @@ SET(LIBRARY_DEPENDENCIES
 
 # The source dependencies of the clients and servers.
 SET(SRC_DEPENDENCIES
+    hexdump.cc
     zmq_util.cc
 )
 
@@ -46,6 +47,8 @@ ADD_EXECUTABLE(ext_req_rep_server ext_req_rep_server.cc ${SRC_DEPENDENCIES})
 TARGET_LINK_LIBRARIES(ext_req_rep_server ${LIBRARY_DEPENDENCIES})
 ADD_EXECUTABLE(ext_req_rep_proxy ext_req_rep_proxy.cc ${SRC_DEPENDENCIES})
 TARGET_LINK_LIBRARIES(ext_req_rep_proxy ${LIBRARY_DEPENDENCIES})
+ADD_EXECUTABLE(ext_req_rep_broker ext_req_rep_broker.cc ${SRC_DEPENDENCIES})
+TARGET_LINK_LIBRARIES(ext_req_rep_broker ${LIBRARY_DEPENDENCIES})
 
 # Multithreaded REQ-REP server
 ADD_EXECUTABLE(multithreaded_req_rep_server multithreaded_req_rep_server.cc ${SRC_DEPENDENCIES})

@@ -2,10 +2,14 @@
 #define EXAMPLES_ZMQ_UTIL_H_
 
 #include <cstring>
+#include <ostream>
 #include <string>
 #include <vector>
 
 #include <zmq.hpp>
+
+// Pretty prints a message.
+std::ostream& operator<<(std::ostream& out, const zmq::message_t& msg);
 
 // Converts the data within a `zmq::message_t` into a string.
 std::string message_to_string(const zmq::message_t& message);
