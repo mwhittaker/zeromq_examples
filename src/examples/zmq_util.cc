@@ -11,6 +11,14 @@ std::ostream& operator<<(std::ostream& out, const zmq::message_t& msg) {
   return out;
 }
 
+std::ostream& operator<<(std::ostream& out, const EnvelopedMessage& e) {
+  for (const zmq::message_t& msg : e.connection_ids) {
+    out << msg << std::endl;
+  }
+  out << e.msg;
+  return out;
+}
+
 std::string message_to_string(const zmq::message_t& message) {
   return std::string(static_cast<const char*>(message.data()), message.size());
 }
@@ -54,8 +62,8 @@ EnvelopedMessage recv_envoloped_msg(zmq::socket_t* socket) {
 }
 
 void send_envoloped_msg(EnvelopedMessage&& e, zmq::socket_t* socket) {
-  e.address.emplace_back(std::move(e.msg));
-  send_msgs(std::move(e.address), socket);
+  e.connection_ids.emplace_back(std::move(e.msg));
+  send_msgs(std::move(e.connection_ids), socket);
 }
 
 int poll(long timeout, std::vector<zmq::pollitem_t>* items) {

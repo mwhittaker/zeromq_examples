@@ -9,13 +9,24 @@
 
 #include <zmq.hpp>
 
+// Multipart messages in ZeroMQ are often prefixed with a number of connection
+// identities. For example, ROUTER sockets internally maintain a map from
+// connection id to connection. When it receives a message over a connection,
+// it prefixes the received multipart message with the connection id of the
+// connection. An EnvelopedMessage represents an connection id prefixed
+// multipart message. See
+// http://zguide.zeromq.org/page:all#The-Extended-Reply-Envelope for more
+// information.
 struct EnvelopedMessage {
-  std::vector<zmq::message_t> address;
+  std::vector<zmq::message_t> connection_ids;
   zmq::message_t msg;
 };
 
 // Pretty prints a message.
 std::ostream& operator<<(std::ostream& out, const zmq::message_t& msg);
+
+// Pretty prints an enveloped message.
+std::ostream& operator<<(std::ostream& out, const EnvelopedMessage& e);
 
 // Converts the data within a `zmq::message_t` into a string.
 std::string message_to_string(const zmq::message_t& message);
